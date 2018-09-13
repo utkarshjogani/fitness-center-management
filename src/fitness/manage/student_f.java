@@ -1,0 +1,700 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package fitness.manage;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author user
+ */
+public class student_f extends javax.swing.JFrame {
+Connection con ;
+Statement stmt;
+int flag;
+DefaultTableModel model;
+    /**
+     * Creates new form student_f
+     */
+    public student_f(String a,String b) {
+        
+         initComponents();
+        show1();
+        pUpdate.hide();
+        pview.setVisible(false);
+        disabled();
+        lbl.setText(a.toUpperCase()+"'s Finance");
+        pAdd.setOpaque(false);
+        pview.setOpaque(false);
+        pUpdate.setOpaque(false);
+        
+  
+        show2(b);
+      
+    }
+ void disabled()
+{
+    txtID.setEditable(false);
+    txtName.setEditable(false);
+    txtGender.setEditable(false);      
+}
+    void OpenConnection()
+ {
+      try
+      {
+        Class.forName("com.mysql.jdbc.Driver");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fitness?useSSL=false","root","utkarsh");
+        stmt=con.createStatement();
+       }
+       catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+ }
+void show1()
+{
+        delete2();
+        DefaultTableModel model=(DefaultTableModel)tblstdID.getModel();
+
+        try{
+          OpenConnection();
+        
+           String query="Select distinct(sid) from student_f order by sid;";
+           ResultSet rs=stmt.executeQuery(query);
+           while(rs.next())
+           {
+             String BookID=rs.getString("sid") ;
+            
+             model.addRow(new Object[] {BookID});
+           }
+           rs.close();
+           stmt.close();
+           con.close();
+          }
+        catch(Exception e)
+             {
+                 JOptionPane.showMessageDialog(null, "Error in connectivity");
+             }
+}
+
+     void delete2()
+{
+    DefaultTableModel model=(DefaultTableModel)tblstdID.getModel();
+    int rows=model.getRowCount();
+    if (rows>0)
+    {
+        for (int i=0;i<rows;i++)
+        {
+            model.removeRow(0);
+        }
+    }
+}
+     void show2(String b)
+{
+    
+      delete3();
+        DefaultTableModel model=(DefaultTableModel)tbllist.getModel();
+
+        try{
+        OpenConnection();
+         String query="Select * from student_f where sid= "+b+" order by date_of_submission";
+         ResultSet rs=stmt.executeQuery(query);
+         while(rs.next())
+         {
+             String d1=rs.getString("sid") ;
+             String d2=rs.getString("amount") ;
+             String d3=rs.getString("month") ;
+             String d4= rs.getString("date_of_submission"); 
+             model.addRow(new Object[] {d1,d2,d3.toUpperCase(),d4});
+         }
+        rs.close();
+        stmt.close();
+        con.close();
+        }
+        catch(Exception e){
+                 JOptionPane.showMessageDialog(null, e+"  Error in connectivity");
+             }
+}
+  void delete3()
+{
+    DefaultTableModel model=(DefaultTableModel)tbllist.getModel();
+    int rows=model.getRowCount();
+    if (rows>0)
+    {
+        for (int i=0;i<rows;i++)
+        {
+            model.removeRow(0);
+        }
+    }
+}
+     void clear()
+{
+    txtID.setText("");
+    txtName.setText("");
+    txtGender.setText("");
+    lbldate.setText("");   
+}
+     void delete1()
+{
+    int rows=model.getRowCount();
+    if (rows>0){
+        for (int i=0;i<rows;i++){
+            model.removeRow(0);
+        }
+    }
+}
+   void setdata(String h,String g)
+    {
+        try
+        {
+            OpenConnection();
+
+             String query="Select * from student_f where sid="+h+" and date_of_submission='"+g+"';";
+             ResultSet rs=stmt.executeQuery(query);
+             if(rs.next())
+             {
+                 txtID.setText(rs.getString("sid"));
+                 txtName.setText(rs.getString("amount"));
+                 String d1=rs.getString("month");
+                 txtGender.setText(d1.toUpperCase());
+                 lbldate.setText(rs.getString("date_of_submission"));
+             }
+            rs.close();
+            stmt.close();
+            con.close();
+        }
+        
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error in connectivity"+e);
+        }
+} 
+   void enabled()
+{
+    txtID.setEditable(true);
+    txtName.setEditable(true);
+    txtGender.setEditable(true);
+}
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel4 = new javax.swing.JLabel();
+        cbDate = new javax.swing.JComboBox();
+        cbmonth = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        lbldate = new javax.swing.JLabel();
+        cbYear = new javax.swing.JComboBox();
+        txtGender = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblstdID = new javax.swing.JTable();
+        pUpdate = new javax.swing.JPanel();
+        btnUpdate = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        pAdd = new javax.swing.JPanel();
+        add = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDel = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
+        btnClose1 = new javax.swing.JButton();
+        pview = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        lbl = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbllist = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+
+        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\user\\Desktop\\f80000d0e486c356eb98941bd9f52b8d--dancer-silhouette-silhouette-portrait.jpeg")); // NOI18N
+        jLabel4.setText("jLabel4");
+
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        cbDate.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "dd", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        cbDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbDateActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cbDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 340, 50, 30));
+
+        cbmonth.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "mm", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        cbmonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbmonthActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cbmonth, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 340, -1, 30));
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Month");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, -1, -1));
+
+        lbldate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbldate.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        getContentPane().add(lbldate, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 340, 140, 23));
+
+        cbYear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "yyyy", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018" }));
+        getContentPane().add(cbYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 340, 70, 30));
+
+        txtGender.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        getContentPane().add(txtGender, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 280, 177, 30));
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Amount paid");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 230, -1, -1));
+
+        txtID.setFont(new java.awt.Font("Calibri Light", 1, 14)); // NOI18N
+        getContentPane().add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 180, 177, 30));
+
+        txtName.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 230, 177, 30));
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Student ID");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 180, 110, 24));
+
+        tblstdID.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "StudentID"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblstdID);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 110, 105, 198));
+
+        pUpdate.setBackground(new java.awt.Color(0, 0, 0));
+
+        btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(102, 102, 102));
+        btnUpdate.setText("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnCancel.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancel.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnCancel.setForeground(new java.awt.Color(102, 102, 102));
+        btnCancel.setText("CANCEL");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pUpdateLayout = new javax.swing.GroupLayout(pUpdate);
+        pUpdate.setLayout(pUpdateLayout);
+        pUpdateLayout.setHorizontalGroup(
+            pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pUpdateLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(btnUpdate)
+                .addGap(18, 18, 18)
+                .addComponent(btnCancel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pUpdateLayout.setVerticalGroup(
+            pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pUpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(btnUpdate)
+                .addComponent(btnCancel))
+        );
+
+        getContentPane().add(pUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 561, -1, 40));
+
+        pAdd.setBackground(new java.awt.Color(0, 0, 0));
+
+        add.setBackground(new java.awt.Color(255, 255, 255));
+        add.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        add.setForeground(new java.awt.Color(102, 102, 102));
+        add.setText("ADD");
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
+
+        btnEdit.setBackground(new java.awt.Color(255, 255, 255));
+        btnEdit.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnEdit.setForeground(new java.awt.Color(102, 102, 102));
+        btnEdit.setText("EDIT");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnDel.setBackground(new java.awt.Color(255, 255, 255));
+        btnDel.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnDel.setForeground(new java.awt.Color(102, 102, 102));
+        btnDel.setText("DELETE");
+        btnDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelActionPerformed(evt);
+            }
+        });
+
+        btnClose.setBackground(new java.awt.Color(255, 255, 255));
+        btnClose.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnClose.setForeground(new java.awt.Color(102, 102, 102));
+        btnClose.setText("CLOSE");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        btnClose1.setBackground(new java.awt.Color(255, 255, 255));
+        btnClose1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnClose1.setForeground(new java.awt.Color(102, 102, 102));
+        btnClose1.setText("VIEW");
+        btnClose1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClose1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pAddLayout = new javax.swing.GroupLayout(pAdd);
+        pAdd.setLayout(pAddLayout);
+        pAddLayout.setHorizontalGroup(
+            pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pAddLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(btnEdit)
+                .addGap(27, 27, 27)
+                .addComponent(btnDel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnClose)
+                .addGap(18, 18, 18)
+                .addComponent(btnClose1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pAddLayout.setVerticalGroup(
+            pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pAddLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(add)
+                    .addComponent(btnEdit)
+                    .addComponent(btnDel)
+                    .addComponent(btnClose)
+                    .addComponent(btnClose1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(pAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 610, -1, -1));
+
+        pview.setBackground(new java.awt.Color(0, 0, 0));
+
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(102, 102, 102));
+        jButton1.setText("BACK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pviewLayout = new javax.swing.GroupLayout(pview);
+        pview.setLayout(pviewLayout);
+        pviewLayout.setHorizontalGroup(
+            pviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pviewLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap())
+        );
+        pviewLayout.setVerticalGroup(
+            pviewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pviewLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap())
+        );
+
+        getContentPane().add(pview, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 670, -1, -1));
+
+        lbl.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        lbl.setForeground(new java.awt.Color(51, 51, 51));
+        getContentPane().add(lbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 100, 320, 36));
+
+        tbllist.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        tbllist.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Student ID", "Amount paid", "month", "date of payment"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tbllist.setColumnSelectionAllowed(true);
+        jScrollPane2.setViewportView(tbllist);
+        tbllist.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, 450, 90));
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Date of payment");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 340, 190, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fitness/manage/banknote_currency_money_numbers_50323_1920x1080.jpg"))); // NOI18N
+        jLabel5.setText("jLabel5");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-180, 0, 1690, 830));
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void cbDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbDateActionPerformed
+
+    private void cbmonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbmonthActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbmonthActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            if ((txtID.getText()).compareTo("")!=0 && (txtName.getText()).compareTo("")!=0 && (txtGender.getText()).compareTo("")!=0 &&  (cbDate.getSelectedItem())!="" && (cbmonth.getSelectedItem())!="" && (cbYear.getSelectedItem())!=""  ){
+                OpenConnection();
+
+                String d=cbYear.getSelectedItem()+"/"+cbmonth.getSelectedItem()+"/"+cbDate.getSelectedItem();
+                String y=null;
+
+                if(flag==1)
+                {
+                    String query="insert into student_f values ("+Integer.parseInt(txtID.getText())+",'"+txtName.getText()+"','"+txtGender.getText()+"','"+d+"');";
+                    stmt.executeUpdate(query);
+
+                    JOptionPane.showMessageDialog(null, "Record Updated!");
+                }
+                else if(flag==2)
+                {
+                    
+                    String query="update student_f set amount='"+txtName.getText()+"',month='"+txtGender.getText()+"',date_of_submission='"+d+"' where sid="+txtID.getText()+" and date_of_submission='"+lbldate.getText()+"';";
+                    stmt.executeUpdate(query);
+                    JOptionPane.showMessageDialog(null, "Record Modified!");
+                }
+
+                stmt.close();
+                con.close();
+            } else {
+                JOptionPane.showMessageDialog(null, "Fields Empty");
+
+            }
+ show2(txtID.getText());
+            pUpdate.setVisible(false);
+            pAdd.setVisible(true);
+            pview.setVisible(false);
+            clear();
+            disabled();
+           
+            show1();
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        pAdd.setVisible(true);
+        pUpdate.setVisible(false);
+        pview.setVisible(false);
+        clear();// TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        pUpdate.setVisible(true);
+        pAdd.setVisible(false);
+        pview.setVisible(false);
+        clear();
+        
+        enabled();
+        lbl.setText("FINANCE");
+        flag=1;
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+
+        String y=JOptionPane.showInputDialog("Enter the Student ID to modify");
+        String g=JOptionPane.showInputDialog("Enter the Date of transaction in yyyy/mm/dd format");
+        
+        setdata(y,g);
+        pview.setVisible(false);
+        pUpdate.setVisible(true);
+        pAdd.setVisible(false);
+        lbl.setText("FINANCE");
+        enabled();
+        flag=2;
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
+        
+        String x=JOptionPane.showInputDialog("Enter the StudentID to Delete");
+        String g=JOptionPane.showInputDialog("Enter the Date of transaction in yyyy/mm/dd format.");
+        setdata(x,g);
+        int ans=JOptionPane.showConfirmDialog(null,"Are you sure you want to Delete finance?");
+        if (ans==JOptionPane.YES_OPTION)
+        {
+            try
+            {
+               OpenConnection();
+
+                String query="Delete from student_f where sid=" + x + " and date_of_submission='"+g+"';";
+                stmt.executeUpdate(query);
+
+                stmt.close();
+                con.close();
+
+                JOptionPane.showMessageDialog(null, "Record Deleted!");
+                show2(x);
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Error in connectivity");
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Record Not Deleted!");
+        }
+        show1();
+        clear();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDelActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+ setVisible(false);         // TODO add your handling code here:
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnClose1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClose1ActionPerformed
+        String y=JOptionPane.showInputDialog("Enter the Student ID to VIEW");
+        
+        show2(y);
+         lbl.setText("FINANCE");
+        pUpdate.setVisible(false);
+        pAdd.setVisible(false);
+        pview.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClose1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         pview.setVisible(false);    
+         pAdd.setVisible(true);
+        pUpdate.setVisible(false);
+        clear();
+         // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(student_f.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(student_f.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(student_f.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(student_f.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnClose1;
+    private javax.swing.JButton btnDel;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox cbDate;
+    private javax.swing.JComboBox cbYear;
+    private javax.swing.JComboBox cbmonth;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl;
+    private javax.swing.JLabel lbldate;
+    private javax.swing.JPanel pAdd;
+    private javax.swing.JPanel pUpdate;
+    private javax.swing.JPanel pview;
+    private javax.swing.JTable tbllist;
+    private javax.swing.JTable tblstdID;
+    private javax.swing.JTextField txtGender;
+    private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtName;
+    // End of variables declaration//GEN-END:variables
+}
